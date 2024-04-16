@@ -3,6 +3,7 @@ import 'package:amazon_clone/features/home/widgets/carousel_image.dart';
 import 'package:amazon_clone/features/home/widgets/deal_of_the_day.dart';
 import 'package:amazon_clone/features/home/widgets/grids.dart';
 import 'package:amazon_clone/features/home/widgets/top_categories.dart';
+import 'package:amazon_clone/features/search/screen/search_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
@@ -23,6 +24,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  void navigateToSearchScreen(String query) {
+    Navigator.pushNamed(context, searchScreen.routeName, arguments: query);
+  }
+
   String location = 'Null, Press Button';
   String address = 'search'; // Corrected variable name
 
@@ -103,6 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         borderRadius: BorderRadius.circular(8), // Adjust border radius as needed
                       ),
                       child: TextFormField(
+                        onFieldSubmitted: navigateToSearchScreen,
                         cursorColor: GlobalVariables.selectedNavBarColor,
                         // ignore: prefer_const_constructors
                         decoration: InputDecoration(

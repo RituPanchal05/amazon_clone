@@ -7,11 +7,11 @@ import 'package:http/http.dart' as http;
 void httpErrorHandle({
   required http.Response response,
   required BuildContext context,
-  required VoidCallback onSucess,
+  required VoidCallback onSuccess,
 }) {
   switch (response.statusCode) {
     case 200:
-      onSucess();
+      onSuccess();
       break;
     case 400:
       showSnackBarMessage(context, jsonDecode(response.body)['msg']);

@@ -46,13 +46,13 @@ class AuthService {
       httpErrorHandle(
           response: res,
           context: context,
-          onSucess: () {
+          onSuccess: () {
             showSnackBarSucess(
               context,
               'Account created! Login with the same credentials!',
             );
             print(res.body);
-          });
+          },);
     } catch (e) {
       showSnackBarError(context, e.toString());
     }
@@ -79,7 +79,7 @@ class AuthService {
       httpErrorHandle(
         response: res,
         context: context,
-        onSucess: () async {
+        onSuccess: () async {
           SharedPreferences.setMockInitialValues({});
           SharedPreferences prefs = await SharedPreferences.getInstance();
           Provider.of<UserProvider>(context, listen: false).setUser(res.body);

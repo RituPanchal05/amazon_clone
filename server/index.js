@@ -6,6 +6,7 @@ const cors = require("cors");
 //IMPORTS FROM OTHER FOLDERS
 const authRouter = require("./routes/auth");
 const adminRouter = require("./routes/admin");
+const productRouter = require("./routes/product");
 
 //INT
 const app = express();
@@ -18,6 +19,7 @@ const DB =
 app.use(express.json());
 app.use(authRouter);
 app.use(adminRouter);
+app.use(productRouter);
 app.use(cors({ origin: "*" }));
 
 app.use(cors());

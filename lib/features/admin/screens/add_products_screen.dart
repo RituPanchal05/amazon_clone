@@ -26,6 +26,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _qualityController = TextEditingController();
+  final TextEditingController _subCategoryController = TextEditingController();
 
   final AdminServices adminServices = AdminServices();
 
@@ -37,6 +38,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
     _descriptionController.dispose();
     _priceController.dispose();
     _qualityController.dispose();
+    _subCategoryController.dispose();
   }
 
   String Category = 'Fashion';
@@ -53,7 +55,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   void sellProduct() {
     if (_addKey.currentState!.validate() && images.isNotEmpty) {
-      adminServices.sellProduct(context: context, name: _productNameController.text, description: _descriptionController.text, price: double.parse(_priceController.text), quantity: double.parse(_qualityController.text), category: Category, images: images);
+      adminServices.sellProduct(context: context, name: _productNameController.text, description: _descriptionController.text, price: double.parse(_priceController.text), quantity: double.parse(_qualityController.text), category: Category, images: images, subCategory: _subCategoryController.text);
     }
   }
 
@@ -171,6 +173,14 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 customTextField(
                   controller: _qualityController,
                   hintText: 'Quality',
+                  obSecureChar: false,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                customTextField(
+                  controller: _subCategoryController,
+                  hintText: 'Mobile Name',
                   obSecureChar: false,
                 ),
                 SizedBox(

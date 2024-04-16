@@ -3,12 +3,11 @@ import 'package:amazon_clone/features/admin/screens/add_products_screen.dart';
 import 'package:amazon_clone/features/admin/screens/admin_screen.dart';
 import 'package:amazon_clone/features/auth/screens/auth_screen.dart';
 import 'package:amazon_clone/features/home/screens/category_deals_screen.dart';
-import 'package:amazon_clone/features/home/screens/fashion.dart';
 import 'package:amazon_clone/features/home/screens/home_screen.dart';
-import 'package:amazon_clone/features/home/screens/mobile.dart';
-import 'package:amazon_clone/features/home/screens/oneplus.dart';
-import 'package:amazon_clone/features/home/screens/samsung.dart';
+import 'package:amazon_clone/features/product_details/screen/product_detail.dart';
+import 'package:amazon_clone/features/search/screen/search_screen.dart';
 import 'package:flutter/foundation.dart';
+import 'package:amazon_clone/models/product_model.dart';
 import 'package:flutter/material.dart';
 
 //!This Route will provide routing gateway services
@@ -41,6 +40,22 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
         settings: routeSettings,
         builder: (_) => const AddProductScreen(),
       );
+    case searchScreen.routeName:
+      var searchQuery = routeSettings.arguments as String;
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => searchScreen(
+          searchQuery: searchQuery,
+        ),
+      );
+    case ProductDetails.routeName:
+      var products = routeSettings.arguments as Product;
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => ProductDetails(
+          products: products,
+        ),
+      );
     case CategoryDealsScreen.routeName:
       var category = routeSettings.arguments as String;
       return MaterialPageRoute(
@@ -49,29 +64,11 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
           category: category,
         ),
       );
-    case mobileCatScreen.routeName:
+    case CategoryDealsScreen.routeName:
       var category = routeSettings.arguments as String;
       return MaterialPageRoute(
         settings: routeSettings,
-        builder: (_) => mobileCatScreen(
-          category: category,
-        ),
-      );
-    case onePlusMobile.routeName:
-      return MaterialPageRoute(
-        settings: routeSettings,
-        builder: (_) => onePlusMobile(),
-      );
-    case samsungMobile.routeName:
-      return MaterialPageRoute(
-        settings: routeSettings,
-        builder: (_) => samsungMobile(),
-      );
-    case fashionCatScreen.routeName:
-      var category = routeSettings.arguments as String;
-      return MaterialPageRoute(
-        settings: routeSettings,
-        builder: (_) => fashionCatScreen(
+        builder: (_) => CategoryDealsScreen(
           category: category,
         ),
       );

@@ -12,7 +12,7 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 class AdminServices {
-  void sellProduct({required BuildContext context, required String name, required String description, required double price, required double quantity, required String category, required List<File> images}) async {
+  void sellProduct({required BuildContext context, required String name, required String description, required double price, required double quantity, required String category, required List<File> images, required String subCategory}) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
 
     try {
@@ -47,7 +47,7 @@ class AdminServices {
       httpErrorHandle(
         response: res,
         context: context,
-        onSucess: () {
+        onSuccess: () {
           showSnackBarSucess(context, 'Product Added Successfully!');
           Navigator.pop(context);
         },
@@ -67,27 +67,26 @@ class AdminServices {
       });
 
       httpErrorHandle(
-        response: res,
-        context: context,
-        onSucess: () {
-          for (int i = 0; i < jsonDecode(res.body).length; i++) {
-            productList.add(
-              Product.fromJson(
-                jsonEncode(
-                  jsonDecode(res.body)[i],
+          response: res,
+          context: context,
+          onSuccess: () {
+            for (int i = 0; i < jsonDecode(res.body).length; i++) {
+              productList.add(
+                Product.fromJson(
+                  jsonEncode(
+                    jsonDecode(res.body)[i],
+                  ),
                 ),
-              ),
-            );
-          }
-        },
-      );
+              );
+            }
+          });
     } catch (e) {
       showSnackBarError(context, e.toString());
     }
     return productList;
   }
 
-   void deleteProduct({
+  void deleteProduct({
     required BuildContext context,
     required Product product,
     required VoidCallback onSuccess,
@@ -109,7 +108,7 @@ class AdminServices {
       httpErrorHandle(
         response: res,
         context: context,
-        onSucess: () {
+        onSuccess: () {
           onSuccess();
         },
       );
@@ -117,5 +116,4 @@ class AdminServices {
       showSnackBarError(context, e.toString());
     }
   }
-
 }
