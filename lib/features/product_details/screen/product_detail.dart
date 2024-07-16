@@ -1,7 +1,9 @@
 import 'package:amazon_clone/common/widgets/custom_button.dart';
 import 'package:amazon_clone/common/widgets/stars.dart';
 import 'package:amazon_clone/constants/global_variables.dart';
+import 'package:amazon_clone/features/product_details/services/product_details_Services.dart';
 import 'package:amazon_clone/models/product_model.dart';
+import 'package:amazon_clone/models/ratings.dart';
 import 'package:amazon_clone/provider/user_provider.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -20,8 +22,32 @@ class ProductDetails extends StatefulWidget {
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
+  final ProductDetailsServices prodcutdetailservices = ProductDetailsServices();
+  double avgRating = 0;
+  double myRating = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    double totalRating = 0;
+    for (int i = 0; i < widget.products.rating!.length; i++) {
+      totalRating += widget.products.rating![i].rating;
+      if (widget.products.rating![i].userId == Provider.of<UserProvider>(context, listen: false).user.id) {
+        myRating = widget.products.rating![i].rating;
+      }
+    }
+    if (totalRating != 0) {
+      avgRating = totalRating / widget.products.rating!.length;
+    }
+  }
+
   void navigateToSearchScreen(String query) {
     Navigator.pushNamed(context, searchScreen.routeName, arguments: query);
+  }
+
+  void addToCart() {
+    prodcutdetailservices.addToCart(context: context, product: widget.products);
   }
 
   @override
@@ -106,8 +132,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(widget.products.id!),
-                  const Stars(
-                    ratings: 4,
+                  Stars(
+                    ratings: avgRating,
                   ),
                 ],
               ),
@@ -171,7 +197,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   'Add to cart',
                   style: TextStyle(color: Colors.black, fontSize: 18),
                 ),
-                onPressed: () {},
+                onPressed: addToCart,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color.fromRGBO(254, 216, 19, 1),
                   minimumSize: const Size(double.infinity, 50),
@@ -181,7 +207,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Container(
@@ -196,11 +222,22 @@ class _ProductDetailsState extends State<ProductDetails> {
               ),
             ),
             RatingBar.builder(
-                itemBuilder: (context, _) => const Icon(
-                      Icons.star,
-                      color: GlobalVariables.secondaryColor,
-                    ),
-                onRatingUpdate: (ratings) {})
+              initialRating: myRating,
+              minRating: 1,
+              direction: Axis.horizontal,
+              allowHalfRating: true,
+              itemCount: 5,
+              itemPadding: const EdgeInsets.symmetric(horizontal: 2),
+              unratedColor: const Color.fromARGB(255, 213, 213, 213),
+              itemBuilder: (context, _) => const Icon(
+                Icons.star,
+                color: GlobalVariables.secondaryColor,
+              ),
+              onRatingUpdate: (ratings) {
+                print("added");
+                prodcutdetailservices.rateProduct(context: context, product: widget.products, rating: ratings);
+              },
+            ),
           ],
         ),
       ),

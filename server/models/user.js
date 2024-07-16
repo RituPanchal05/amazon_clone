@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { productSchema, Product } = require("./product");
 
 //it is just structure of user
 const userSCchema = mongoose.Schema({
@@ -31,6 +32,15 @@ const userSCchema = mongoose.Schema({
   type: {
     type: String,
   },
+  cart: [
+    {
+      product : productSchema,
+      quantity : {
+        type : Number,
+        required: true, 
+      }
+    },
+  ],
 });
 
 //creating model for uerschema

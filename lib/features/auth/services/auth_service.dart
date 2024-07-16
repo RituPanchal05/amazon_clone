@@ -25,12 +25,12 @@ class AuthService {
     try {
       User user = User(
         id: '',
-        name: name,
+        name: name, 
         password: password,
         email: email,
         address: address,
         type: type,
-        token: '',
+        token: '', cart: [],
       );
 
       http.Response res = await http.post(

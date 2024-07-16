@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 //!For real device
-// String uri = "http://192.168.1.7:3000";
+String uri = "http://192.168.1.6:3000";
 
 //!For real device
 // String uri1 = "http://your-ip:port";
 
 //!For emulator
-String uri = "http://10.0.2.2:3000";
+// String uri = "http://10.0.2.2:3000";
 
 class GlobalVariables {
   // COLORS
